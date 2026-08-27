@@ -1,15 +1,24 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { Mail, LockKeyhole, ArrowRight, UserStar } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
-export default function Home() {
+export default function Login() {
     const [data,setData] = useState({
       email: "",
       password: ""
     })
+   
     const router = useRouter()
+    useEffect(()=>{
+      const accessToken = localStorage.getItem("accessToken")
+      if (accessToken) {
+        router.replace("/pages/Home/Dashboard")
+      }
+    },[router])
+   
 
     const handleChange = (e)=>{
       const {name,value} = e.target
@@ -18,21 +27,37 @@ export default function Home() {
 
     const handleSubmit = (e)=>{
       e.preventDefault()
+      if(!data.email || !data.password ){
+        toast.error("email or password is required")
+        return
+      }
+      axios.post(
+    "http://localhost:8000/api/login",
+    data,
+)
+.then(result => {
+    console.log(result.data);
+    const accessToken = result.data.accessToken
 
-      axios.post("http://localhost:8000/api/login",data)
-      .then(result=>{
-        console.log(result);
-        
-      })
-      .catch(err=>{
-        console.log(err, "error while logining ");
-        
-      })
+    localStorage.setItem("accessToken",result.data.accessToken)
+    localStorage.setItem("refreshToken",result.data.refreshToken)
+
+console.log("Saved token:", localStorage.getItem("accessToken"));
+    if (!accessToken) {
+        router.push("/pages/Login");
+    }
+    console.log(accessToken);
+    
+})
+.catch(err => {
+    console.log(err, "error while logging in");
+    toast.error('error while logining in')
+});
     }
 
   return (
     <main className="min-h-screen bg-linear-to-r from-[#29205f] via-[#202451] to-[#0c3141] px-5">
-
+      <Toaster/>
       {/* Header */}
       <header className="mx-auto flex max-w-[1150px] items-center justify-between py-7">
         <h1 className="text-5xl font-light text-[#d2c2ff]">
