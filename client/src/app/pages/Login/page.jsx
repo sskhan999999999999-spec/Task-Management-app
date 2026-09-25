@@ -159,25 +159,8 @@ console.log("Saved token:", localStorage.getItem("accessToken"));
 
           </form>
 
-          {/* OR */}
-          <div className="my-8 flex items-center gap-4">
-            <div className="h-px flex-1 bg-white/10" />
-            <span className="text-xs text-[#77748a]">
-              OR
-            </span>
-            <div className="h-px flex-1 bg-white/10" />
-          </div>
-
-          {/* Sign Up */}
-          <p className="text-center text-[#c4bfce]">
-            Don`&apos`t have an account?{" "}
-            <button className="font-bold text-[#c0a9e6] hover:text-white"
-            
-            onClick={()=> {router.push("/pages/Signup")}}
-            >
-              Sign Up
-            </button>
-          </p>
+         
+          
 
         </div>
       </section>
