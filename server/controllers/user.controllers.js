@@ -90,7 +90,7 @@ export const login = async (req, res) => {
 
         return res.status(200).json({
             message: "Login successful",
-            // user,
+            user,
             accessToken,
             refreshToken
         });
@@ -139,4 +139,28 @@ export const currentUser = async(req,res)=>{
     })
     
 
+}
+
+export const getAllUsers = async(req,res)=>{
+    try {
+        
+        const users = await User.find({})
+
+        return res
+        .status(200)
+        .json({
+            message:"all users fetched successfully",
+            users
+        })
+
+    } catch (error) {
+        console.log(error);
+        
+        return res
+        .status(500)
+        .json({
+            message:"somthing went wrong while fetching all users",
+            error: error.message
+        })
+    }
 }

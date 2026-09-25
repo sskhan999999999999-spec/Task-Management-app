@@ -16,6 +16,8 @@ export default function Login() {
       const accessToken = localStorage.getItem("accessToken")
       if (accessToken) {
         router.replace("/pages/Home/Dashboard")
+      }else{
+        router.replace("/pages/Login")
       }
     },[router])
    
@@ -32,7 +34,7 @@ export default function Login() {
         return
       }
       axios.post(
-    "http://localhost:8000/api/login",
+    `http://localhost:8000/api/login`,
     data,
 )
 .then(result => {

@@ -13,11 +13,21 @@ import {
   User,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Sidebar() {
 
   const [data, setData] = useState();
+
+  const pathname = usePathname()
+
+  const isActive = (path) =>
+  pathname === path
+    ? "relative flex w-full items-center gap-3 overflow-hidden rounded-xl border border-indigo-400/20 bg-indigo-500/[0.12] px-4 py-2.5 text-sm font-medium text-indigo-100 shadow-[0_4px_20px_rgba(99,102,241,0.08)] backdrop-blur-xl transition-all duration-300 before:absolute before:left-0 before:top-1/2 before:h-5 before:w-0.5 before:-translate-y-1/2 before:rounded-full before:bg-cyan-300 before:shadow-[0_0_10px_rgba(103,232,249,0.7)]"
+    : "flex w-full items-center gap-3 rounded-xl border border-transparent px-4 py-2.5 text-sm font-medium text-gray-400 transition-all duration-300 hover:border-white/[0.08] hover:bg-white/[0.04] hover:text-gray-200";
+  
+  
   
       useEffect(() => {
        const accessToken = localStorage.getItem("accessToken")
@@ -61,7 +71,7 @@ export default function Sidebar() {
           {/* Dashboard */}
           <Link
             href="/pages/Home/Dashboard"
-            className="flex items-center gap-3 rounded-xl bg-white/10 px-3 py-3 text-sm font-medium transition hover:bg-white/15"
+            className={isActive("/pages/Home/Dashboard")}
           >
             <LayoutDashboard size={19} />
             Dashboard
@@ -71,7 +81,7 @@ export default function Sidebar() {
           {/* Projects */}
           <Link
             href="/pages/Home/Projects"
-            className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-gray-400 transition hover:bg-white/10 hover:text-white"
+            className={isActive("/pages/Home/Projects")}
           >
             <FolderKanban size={19} />
             Projects
@@ -81,7 +91,7 @@ export default function Sidebar() {
           {/* Tasks */}
           <Link
             href="/pages/Home/Tasks"
-            className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-gray-400 transition hover:bg-white/10 hover:text-white"
+            className={isActive("/pages/Home/Tasks")}
           >
             <CheckSquare size={19} />
             Tasks
@@ -91,7 +101,7 @@ export default function Sidebar() {
           {/* Users */}
           <Link
             href="/pages/Home/Users"
-            className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-gray-400 transition hover:bg-white/10 hover:text-white"
+            className={isActive("/pages/Home/Users")}
           >
             <Users size={19} />
             Users
@@ -107,37 +117,73 @@ export default function Sidebar() {
 
 
       {/* Bottom */}
-      <div className="border-t border-white/10 pt-4">
+   
+<div className="border-t border-white/[0.08] pt-4">
 
-              <div
-        className="mb-2 flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-3 py-3 backdrop-blur-xl transition-all duration-300 hover:bg-white/[0.08]"
-      >
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-indigo-500/80 to-cyan-400/70 text-white shadow-lg shadow-indigo-500/10">
-          <User size={18} strokeWidth={2} />
-        </div>
+  {/* User Profile Card */}
+  <div className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.035] p-3 backdrop-blur-2xl transition-all duration-300 hover:border-indigo-400/20 hover:bg-white/[0.055]">
 
-        <div className="min-w-0">
-          <p className="truncate text-xl font-semibold text-white">
-            {data?.user?.username}
-          </p>
-          <p className="text-[11px] text-gray-500">
-            Logged in
+    {/* Subtle Ethereal Glow */}
+    <div className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-indigo-500/10 blur-3xl transition-all duration-500 group-hover:bg-cyan-400/10" />
 
-          </p>
-           <p className="truncate text-xl bg-indigo-600 font-semibold text-white">
-            {data?.user?.role}
-          </p>
-        </div>
+    <div className="relative flex items-center gap-3">
+
+      {/* Avatar */}
+      <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-gradient-to-br from-indigo-500/80 to-cyan-400/60 text-white shadow-lg shadow-indigo-500/10">
+        <User size={19} strokeWidth={2} />
+
+        {/* Online Indicator */}
+        <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#10131f] bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
       </div>
 
-        <button
-          className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm text-red-400 transition hover:bg-red-500/10"
-        >
-          <LogOut size={19} />
-          Logout
-        </button>
+      {/* User Info */}
+      <div className="min-w-0 flex-1">
+
+        <div className="flex items-center justify-between gap-2">
+          <p className="truncate text-sm font-semibold tracking-wide text-white">
+            {data?.user?.username || "User"}
+          </p>
+
+          {/* Role Badge */}
+          <span className="shrink-0 rounded-md border border-indigo-400/20 bg-indigo-500/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-indigo-300">
+            {data?.user?.role || "User"}
+          </span>
+        </div>
+
+        {/* Status */}
+        <div className="mt-1.5 flex items-center gap-1.5">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.6)]" />
+          <span className="text-[11px] text-gray-500">
+            Active now
+          </span>
+        </div>
 
       </div>
+    </div>
+  </div>
+
+  {/* Logout Button */}
+  <button
+    onClick={handleLogout}
+    className="group mt-2 flex w-full items-center gap-3 rounded-xl border border-transparent px-3 py-2.5 text-sm text-gray-400 transition-all duration-300 hover:border-red-400/10 hover:bg-red-500/[0.06] hover:text-red-300"
+  >
+    <LogOut
+      size={18}
+      className="transition-transform duration-300 group-hover:-translate-x-0.5"
+    />
+
+    <span className="font-medium">
+      Sign out
+    </span>
+
+    <span className="ml-auto text-[10px] text-gray-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+      Logout
+    </span>
+  </button>
+
+</div>
+
+
 
     </aside>
   );
