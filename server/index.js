@@ -16,7 +16,7 @@ app.use(cors({
     origin: [
         "http://localhost:3000",
         "http://192.168.1.18:3000",
-        "https://aethermangamant.vercel.app"
+        "https://aethermanagment.vercel.app/"
     ],
     credentials: true
 }))
