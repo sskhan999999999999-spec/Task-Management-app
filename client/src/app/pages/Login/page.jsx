@@ -11,6 +11,7 @@ export default function Login() {
       password: ""
     })
    
+    const api_url = process.env.NEXT_PUBLIC_API_URL
     const router = useRouter()
     useEffect(()=>{
       const accessToken = localStorage.getItem("accessToken")
@@ -34,7 +35,7 @@ export default function Login() {
         return
       }
       axios.post(
-    `http://localhost:8000/api/login`,
+    `http://${api_url}/api/login`,
     data,
 )
 .then(result => {

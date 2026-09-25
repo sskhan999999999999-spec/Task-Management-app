@@ -11,12 +11,13 @@ export default function Dashboard() {
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
 
+  const api_url = process.env.NEXT_PUBLIC_API_URL;
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
 
     // Current User
     axios
-      .get("http://localhost:8000/api/getCurrentUser", {
+      .get(`http://${api_url}/api/getCurrentUser`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -31,7 +32,7 @@ export default function Dashboard() {
 
     // All Users
     axios
-      .get("http://localhost:8000/api/getAllUsers", {
+      .get(`http://${api_url}/api/getAllUsers`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -46,7 +47,7 @@ export default function Dashboard() {
 
     // All Projects
     axios
-      .get("http://localhost:8000/api/getAllProjects", {
+      .get(`http://${api_url}/api/getAllProjects`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

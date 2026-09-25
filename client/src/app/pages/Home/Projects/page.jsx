@@ -15,7 +15,9 @@ import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
 
-const Socket = io("localhost:8000")
+const Socket = io(process.env.NEXT_PUBLIC_API_URL,{
+    withCredentials: true
+  })
 function Page() {
   const [modal, setModal] = useState(false);
   const [projects, setProjects] = useState([]);
@@ -31,6 +33,7 @@ function Page() {
     priority: "",
   });
 
+  const api_url = process.env.NEXT_PUBLIC_API_URL
   useEffect(()=>{
       Socket.on("connect",()=>{
         console.log("socket connected",Socket.id)
@@ -58,7 +61,7 @@ function Page() {
       const accessToken = localStorage.getItem("accessToken");
 
       const result = await axios.get(
-        "http://localhost:8000/api/getAllProjects",
+        `http://${api_url}/api/getAllProjects`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -99,7 +102,7 @@ function Page() {
       const accessToken = localStorage.getItem("accessToken");
 
       await axios.post(
-        "http://localhost:8000/api/create-project",
+        `http://${api_url}/api/create-project`,
         data,
         {
           headers: {
