@@ -35,8 +35,10 @@ console.log(process.env.MONGODB_URI)
 
 app.use('/api', router)
 
-const server = app.listen(8000, "0.0.0.0", ()=>{
-    console.log(`server is running at port 8000`)
+const PORT = process.env.PORT || 8000
+
+const server = app.listen(PORT, "0.0.0.0", ()=>{
+    console.log(`server is running at port ${PORT}`)
 })
 
 const io = new Server(server, {
