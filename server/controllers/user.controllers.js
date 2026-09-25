@@ -1,19 +1,31 @@
 import { User } from "../models/user.models.js"
 
 
-const  generateAccessTokenandRefreshToken = async(userId)=>{
+const generateAccessTokenandRefreshToken = async (userId) => {
     try {
         const user = await User.findById(userId)
+
         const accessToken = await user.generateAccessToken()
         const refreshToken = await user.generateRefreshToken()
 
         user.refreshToken = refreshToken
-        await user.save({validateBeforeSave:false})
-        return {accessToken,refreshToken}
-        
+
+        await user.save({
+            validateBeforeSave: false
+        })
+
+        return {
+            accessToken,
+            refreshToken
+        }
+
     } catch (error) {
-        console.log(error, "something went wrong while generating access token and refresh token");
-        
+        console.log(
+            error,
+            "something went wrong while generating access token and refresh token"
+        )
+
+        throw error
     }
 }
 

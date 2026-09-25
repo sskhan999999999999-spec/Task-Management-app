@@ -10,16 +10,18 @@ dotenv.config()
 
 const app = express()
 
-app.use(express.json())
-
 app.use(cors({
     origin: [
         "http://localhost:3000",
         "http://192.168.1.18:3000",
         "https://aethermanagment.vercel.app"
     ],
-    credentials: true
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 }))
+
+app.use(express.json())
 
 app.use(cookieParser())
 
@@ -30,8 +32,6 @@ mongoose.connect(process.env.MONGODB_URI)
 .catch((error)=>{
     console.log("something wrong while connecting database", error)
 })
-
-console.log(process.env.MONGODB_URI)
 
 app.use('/api', router)
 
@@ -51,7 +51,8 @@ const io = new Server(server, {
         credentials: true
     }
 })
-app.set("io",io)
+
+app.set("io", io)
 
 io.on("connection", (socket)=>{
     console.log("user connected", socket.id)
@@ -65,3 +66,4 @@ io.on("connection", (socket)=>{
         console.log("user disconnected", socket.id)
     })
 })
+
