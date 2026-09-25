@@ -15,7 +15,9 @@ import {
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-const socket = io("http://192.168.1.18:8000");
+const socket = io(process.env.NEXT_PUBLIC_API_URL,{
+  withCredentials:true
+});
 
 function Page() {
   const [modal, setModal] = useState(false);
@@ -34,6 +36,7 @@ function Page() {
     asingTo: "",
   });
 
+  const api_url = process.env.NEXT_PUBLIC_API_URL
   useEffect(() => {
     socket.on("connect", () => {
       console.log("socket connect", socket.id);
@@ -61,7 +64,7 @@ function Page() {
       const accessToken = localStorage.getItem("accessToken");
 
       const result = await axios.get(
-        "http://192.168.1.18:8000/api/getAllTasks",
+        `https//${api_url}/api/getAllTasks`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -102,7 +105,7 @@ function Page() {
       const accessToken = localStorage.getItem("accessToken");
 
       const result = await axios.get(
-        "http://192.168.1.18:8000/api/getAllUsers",
+        `https://${api_url}/api/getAllUsers`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -126,7 +129,7 @@ function Page() {
       const accessToken = localStorage.getItem("accessToken");
 
       const result = await axios.post(
-        "http://192.168.1.18:8000/api/create-task",
+        `https://${api_url}/api/create-task`,
         data,
         {
           headers: {
