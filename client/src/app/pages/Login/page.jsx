@@ -35,7 +35,7 @@ export default function Login() {
         return
       }
       axios.post(
-    `http://${api_url}/api/login`,
+    `${api_url}/api/login`,
     data,
 )
 .then(result => {
