@@ -13,14 +13,14 @@ export default function Login() {
    
     const api_url = process.env.NEXT_PUBLIC_API_URL
     const router = useRouter()
-    // useEffect(()=>{
-    //   const accessToken = localStorage.getItem("accessToken")
-    //   if (accessToken) {
-    //     router.replace("/pages/Home/Dashboard")
-    //   }else{
-    //     router.replace("/pages/Login")
-    //   }
-    // },[router])
+    useEffect(()=>{
+      const accessToken = localStorage.getItem("accessToken")
+      if (accessToken) {
+        router.replace("/pages/Home/Dashboard")
+      }else{
+        router.replace("/pages/Login")
+      }
+    },[router])
    
 
     const handleChange = (e)=>{
