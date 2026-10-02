@@ -27,6 +27,7 @@ export default function Sidebar() {
 
   const pathname = usePathname()
   const router = useRouter()
+  const api_url = process.env.NEXT_PUBLIC_API_URL;
   const isActive = (path) =>
   pathname === path
     ? "relative flex w-full items-center gap-3 overflow-hidden rounded-xl border border-indigo-400/20 bg-indigo-500/[0.12] px-4 py-2.5 text-sm font-medium text-indigo-100 shadow-[0_4px_20px_rgba(99,102,241,0.08)] backdrop-blur-xl transition-all duration-300 before:absolute before:left-0 before:top-1/2 before:h-5 before:w-0.5 before:-translate-y-1/2 before:rounded-full before:bg-cyan-300 before:shadow-[0_0_10px_rgba(103,232,249,0.7)]"
@@ -35,7 +36,7 @@ export default function Sidebar() {
   
   
       useEffect(() => {
-          axios.get("http://localhost:8000/api/getCurrentUser", {
+          axios.get(`http://${api_url}/api/getCurrentUser`, {
             headers:{
               Authorization:`Bearer ${accessToken}`
             }
@@ -51,7 +52,7 @@ export default function Sidebar() {
 
       const handleLogout = ()=>{
        
-        axios.post("http://localhost:8000/api/logout",{},
+        axios.post(`http://${api_url}/api/logout`,{},
           {
             headers:{
               Authorization: `Bearer ${accessToken}`
