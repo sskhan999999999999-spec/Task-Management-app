@@ -12,16 +12,21 @@ import {
   Bot,
   User,
 } from "lucide-react";
+
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+
+
+const accessToken = localStorage.getItem("accessToken")
 
 export default function Sidebar() {
 
   const [data, setData] = useState();
 
   const pathname = usePathname()
-
+  const router = useRouter()
   const isActive = (path) =>
   pathname === path
     ? "relative flex w-full items-center gap-3 overflow-hidden rounded-xl border border-indigo-400/20 bg-indigo-500/[0.12] px-4 py-2.5 text-sm font-medium text-indigo-100 shadow-[0_4px_20px_rgba(99,102,241,0.08)] backdrop-blur-xl transition-all duration-300 before:absolute before:left-0 before:top-1/2 before:h-5 before:w-0.5 before:-translate-y-1/2 before:rounded-full before:bg-cyan-300 before:shadow-[0_0_10px_rgba(103,232,249,0.7)]"
@@ -30,7 +35,6 @@ export default function Sidebar() {
   
   
       useEffect(() => {
-       const accessToken = localStorage.getItem("accessToken")
           axios.get("http://localhost:8000/api/getCurrentUser", {
             headers:{
               Authorization:`Bearer ${accessToken}`
@@ -46,12 +50,30 @@ export default function Sidebar() {
       }, []);
 
       const handleLogout = ()=>{
-        axios.post("http://localhost:8000/api/")
+       
+        axios.post("http://localhost:8000/api/logout",{},
+          {
+            headers:{
+              Authorization: `Bearer ${accessToken}`
+            }
+          }
+        )
+        .then((result)=>{
+          console.log("logout successfully");
+          localStorage.clear("accessToken")
+          localStorage.clear("refreshToken")
+          toast.success("logout successfull")
+          if (result.data.message == "logout successfully") {
+            router.replace("/pages/Login")
+          }
+        })
+
       }
   return (
     <aside className="fixed left-0 top-0 z-50 flex h-screen w-64 flex-col border-r border-white/10 bg-[#11152a]/80 p-5 text-white backdrop-blur-xl">
 
       {/* Logo */}
+      <Toaster/>
       <div className="mb-10 flex items-center gap-3">
         <h1 className="text-3xl font-light text-[#d2c2ff]">
           Aether Task
