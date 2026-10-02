@@ -36,7 +36,7 @@ export default function Sidebar() {
   
   
       useEffect(() => {
-          axios.get(`http://${api_url}/api/getCurrentUser`, {
+          axios.get(`${api_url}/api/getCurrentUser`, {
             headers:{
               Authorization:`Bearer ${accessToken}`
             }
@@ -52,7 +52,7 @@ export default function Sidebar() {
 
       const handleLogout = ()=>{
        
-        axios.post(`http://${api_url}/api/logout`,{},
+        axios.post(`${api_url}/api/logout`,{},
           {
             headers:{
               Authorization: `Bearer ${accessToken}`
