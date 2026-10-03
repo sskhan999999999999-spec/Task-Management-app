@@ -46,8 +46,8 @@ export default function Login() {
     localStorage.setItem("refreshToken",result.data.refreshToken)
 
 console.log("Saved token:", localStorage.getItem("accessToken"));
-    if (!accessToken) {
-        router.push("/pages/Login");
+    if (accessToken) {
+        router.push("/pages/Home/Dashboard");
     }
     console.log(accessToken);
     
