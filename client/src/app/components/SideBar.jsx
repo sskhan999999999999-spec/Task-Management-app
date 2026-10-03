@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 
-const accessToken = localStorage.getItem("accessToken")
+
 
 export default function Sidebar() {
 
@@ -36,6 +36,7 @@ export default function Sidebar() {
   
   
       useEffect(() => {
+        const accessToken = localStorage.getItem("accessToken")
           axios.get(`${api_url}/api/getCurrentUser`, {
             headers:{
               Authorization:`Bearer ${accessToken}`
@@ -51,7 +52,7 @@ export default function Sidebar() {
       }, []);
 
       const handleLogout = ()=>{
-       
+       const accessToken = localStorage.getItem("accessToken")
         axios.post(`${api_url}/api/logout`,{},
           {
             headers:{
