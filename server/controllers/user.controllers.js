@@ -115,7 +115,7 @@ export const login = async (req, res) => {
         });
     }
 };
-export const logout = async(res,req)=>{
+export const logout = async(req,res)=>{
     await User.findByIdAndUpdate(
         req.user._id,
         {
@@ -133,8 +133,8 @@ export const logout = async(res,req)=>{
     }
     res
     .status(200)
-    .clearcookie("accessToken",option)
-    .clearcookie("refreshToken",option)
+    .clearCookie("accessToken",option)
+    .clearCookie("refreshToken",option)
     .json({
         message: "logout successfully"
     })
