@@ -44,6 +44,7 @@ export default function Sidebar() {
       })
       .then((result) => {
         console.log(result.data);
+        console.log(result)
         setData(result.data);
       })
       .catch((err) => {

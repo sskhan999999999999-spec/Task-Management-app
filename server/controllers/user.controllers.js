@@ -117,7 +117,7 @@ export const login = async (req, res) => {
 };
 export const logout = async(res,req)=>{
     await User.findByIdAndUpdate(
-        req.body._id,
+        req.user._id,
         {
             $unset:{
                 refreshToken:1
