@@ -9,6 +9,7 @@ export default function Dashboard() {
   const [data, setData] = useState();
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
+ const [tasks, setTasks] = useState([])
 
   const api_url = process.env.NEXT_PUBLIC_API_URL;
 
@@ -55,6 +56,21 @@ export default function Dashboard() {
       .then((result) => {
         console.log(result.data);
         setProjects(result.data.projects);
+      })
+      .catch((err) => {
+        console.log(err, "something went wrong while fetching projects");
+      });
+
+      //All Tasks 
+      axios
+      .get(`${api_url}/api/getAllTasks`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((result) => {
+        console.log(result.data);
+        setTasks(result.data.projects);
       })
       .catch((err) => {
         console.log(err, "something went wrong while fetching projects");
@@ -140,11 +156,11 @@ export default function Dashboard() {
 
               <div>
                 <p className="text-xs font-semibold uppercase tracking-widest text-red-100">
-                  Total Users
+                  Total Tasks
                 </p>
 
                 <p className="mt-1 text-3xl font-bold text-white">
-                  {users.length}
+                  {tasks.length}
                 </p>
               </div>
 
