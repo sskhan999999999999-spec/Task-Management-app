@@ -24,6 +24,7 @@ import toast, { Toaster } from "react-hot-toast";
 export default function Sidebar() {
 
   const [data, setData] = useState();
+  const [accessToken,setAccessToken] = useState()
 
   const pathname = usePathname()
   const router = useRouter()
@@ -49,10 +50,11 @@ export default function Sidebar() {
           .catch(err => {
               console.log(err, "something went wrong while fetching user");
           });
+          setAccessToken(accessToken)
       }, []);
 
       const handleLogout = ()=>{
-       const accessToken = localStorage.getItem("accessToken")
+       
         axios.post(`${api_url}/api/logout`,{},
           {
             headers:{
