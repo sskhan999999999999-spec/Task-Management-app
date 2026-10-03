@@ -70,7 +70,7 @@ export default function Dashboard() {
       })
       .then((result) => {
         console.log(result.data);
-        setTasks(result.data.projects);
+        setTasks(result.data.allTasks);
       })
       .catch((err) => {
         console.log(err, "something went wrong while fetching projects");
@@ -136,7 +136,7 @@ export default function Dashboard() {
                 </p>
 
                 <p className="mt-1 text-3xl font-bold text-white">
-                  {users.length}
+                  {users?.length}
                 </p>
               </div>
 
@@ -160,7 +160,7 @@ export default function Dashboard() {
                 </p>
 
                 <p className="mt-1 text-3xl font-bold text-white">
-                  {tasks.length}
+                  {tasks?.length}
                 </p>
               </div>
 
@@ -184,7 +184,7 @@ export default function Dashboard() {
                 </p>
 
                 <p className="mt-1 text-3xl font-bold text-white">
-                  {projects.length}
+                  {projects?.length}
                 </p>
               </div>
 
