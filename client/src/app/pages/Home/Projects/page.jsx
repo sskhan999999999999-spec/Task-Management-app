@@ -61,7 +61,7 @@ function Page() {
       const accessToken = localStorage.getItem("accessToken");
 
       const result = await axios.get(
-        `https://${api_url}/api/getAllProjects`,
+        `${api_url}/api/getAllProjects`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -102,7 +102,7 @@ function Page() {
       const accessToken = localStorage.getItem("accessToken");
 
       await axios.post(
-        `https://${api_url}/api/create-project`,
+        `${api_url}/api/create-project`,
         data,
         {
           headers: {

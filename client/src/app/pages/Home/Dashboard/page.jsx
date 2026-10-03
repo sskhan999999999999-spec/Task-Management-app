@@ -17,7 +17,7 @@ export default function Dashboard() {
 
     // Current User
     axios
-      .get(`https://${api_url}/api/getCurrentUser`, {
+      .get(`${api_url}/api/getCurrentUser`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -32,7 +32,7 @@ export default function Dashboard() {
 
     // All Users
     axios
-      .get(`https://${api_url}/api/getAllUsers`, {
+      .get(`${api_url}/api/getAllUsers`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -47,7 +47,7 @@ export default function Dashboard() {
 
     // All Projects
     axios
-      .get(`https://${api_url}/api/getAllProjects`, {
+      .get(`${api_url}/api/getAllProjects`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

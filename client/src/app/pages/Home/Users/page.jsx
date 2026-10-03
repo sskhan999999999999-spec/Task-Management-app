@@ -26,7 +26,7 @@ function Page() {
     password: "",
     role: "",
   });
-
+  const api_url = process.env.NEXT_PUBLIC_API_URL
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((prev) => ({ ...prev, [name]: value }));
@@ -44,7 +44,7 @@ function Page() {
       const accessToken = localStorage.getItem("accessToken");
 
       const result = await axios.get(
-        "http://localhost:8000/api/getAllUsers",
+        `${api_url}/api/getAllUsers`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -70,7 +70,7 @@ function Page() {
       const accessToken = localStorage.getItem("accessToken");
 
       await axios.post(
-        "http://localhost:8000/api/create-user",
+        `${api_url}/api/create-user`,
         data,
         {
           headers: {
