@@ -44,7 +44,6 @@ export default function Sidebar() {
       })
       .then((result) => {
         console.log(result.data);
-        console.log(result)
         setData(result.data);
       })
       .catch((err) => {
@@ -56,7 +55,9 @@ export default function Sidebar() {
     axios
       .post(
         `${api_url}/api/logout`,
-        {},
+        {
+          id:data.user._id,
+        },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
