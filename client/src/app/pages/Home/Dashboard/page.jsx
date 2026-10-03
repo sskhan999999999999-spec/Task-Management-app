@@ -2,14 +2,14 @@
 
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Users, FolderKanban, Sparkles } from "lucide-react";
+import { Users, FolderKanban, Sparkles, CheckCircle2, Clock3, CircleDot } from "lucide-react";
 import PieChart from "../../../components/PieChart";
 
 export default function Dashboard() {
   const [data, setData] = useState();
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
- const [tasks, setTasks] = useState([])
+  const [tasks, setTasks] = useState([]);
 
   const api_url = process.env.NEXT_PUBLIC_API_URL;
 
@@ -61,8 +61,8 @@ export default function Dashboard() {
         console.log(err, "something went wrong while fetching projects");
       });
 
-      //All Tasks 
-      axios
+    // All Tasks
+    axios
       .get(`${api_url}/api/getAllTasks`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -73,9 +73,21 @@ export default function Dashboard() {
         setTasks(result.data.allTasks);
       })
       .catch((err) => {
-        console.log(err, "something went wrong while fetching projects");
+        console.log(err, "something went wrong while fetching tasks");
       });
   }, []);
+
+  const completedTasks = tasks?.filter(
+    (task) => task.status === "completed"
+  ).length;
+
+  const inProgressTasks = tasks?.filter(
+    (task) => task.status === "In progress"
+  ).length;
+
+  const startedTasks = tasks?.filter(
+    (task) => task.status === "started"
+  ).length;
 
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-linear-to-r from-[#29205f] via-[#202451] to-[#0c3141] px-5 pb-10 pt-20 text-white md:overflow-hidden md:px-5 md:pt-5">
@@ -193,9 +205,142 @@ export default function Dashboard() {
 
         </div>
 
-        {/* Pie Chart */}
-        <div className="mt-10 w-full sm:mt-12 lg:absolute lg:left-0 lg:top-52 lg:mt-0 lg:w-[500px]">
-          <PieChart />
+        {/* Pie Chart + Task Overview */}
+        <div className="mt-10 grid w-full grid-cols-1 gap-6 sm:mt-12 lg:absolute lg:left-0 lg:top-52 lg:mt-0 lg:grid-cols-[500px_1fr] lg:items-center">
+
+          {/* Pie Chart */}
+          <div className="w-full lg:w-[500px]">
+            <PieChart />
+          </div>
+
+          {/* Task Overview */}
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.06] p-6 shadow-2xl shadow-black/20 backdrop-blur-2xl lg:mr-8">
+
+            <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-purple-500/10 blur-3xl" />
+
+            <div className="pointer-events-none absolute -bottom-20 -left-20 h-48 w-48 rounded-full bg-cyan-500/10 blur-3xl" />
+
+            <div className="relative">
+
+              <div className="flex items-center justify-between">
+
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-300">
+                    Task Overview
+                  </p>
+
+                  <h3 className="mt-2 text-xl font-semibold text-white">
+                    Task Progress
+                  </h3>
+                </div>
+
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/10">
+                  <Sparkles size={19} className="text-purple-300" />
+                </div>
+
+              </div>
+
+              <div className="mt-6 space-y-3">
+
+                {/* Completed */}
+                <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 transition hover:bg-white/[0.07]">
+
+                  <div className="flex items-center gap-3">
+
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-400/10 text-emerald-300">
+                      <CheckCircle2 size={18} />
+                    </div>
+
+                    <div>
+                      <p className="text-sm font-medium text-white">
+                        Completed
+                      </p>
+
+                      <p className="text-xs text-slate-500">
+                        Finished tasks
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <p className="text-xl font-semibold text-emerald-300">
+                    {completedTasks}
+                  </p>
+
+                </div>
+
+                {/* In Progress */}
+                <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 transition hover:bg-white/[0.07]">
+
+                  <div className="flex items-center gap-3">
+
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-400/10 text-amber-300">
+                      <Clock3 size={18} />
+                    </div>
+
+                    <div>
+                      <p className="text-sm font-medium text-white">
+                        In Progress
+                      </p>
+
+                      <p className="text-xs text-slate-500">
+                        Currently active
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <p className="text-xl font-semibold text-amber-300">
+                    {inProgressTasks}
+                  </p>
+
+                </div>
+
+                {/* Started */}
+                <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 transition hover:bg-white/[0.07]">
+
+                  <div className="flex items-center gap-3">
+
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-300">
+                      <CircleDot size={18} />
+                    </div>
+
+                    <div>
+                      <p className="text-sm font-medium text-white">
+                        Started
+                      </p>
+
+                      <p className="text-xs text-slate-500">
+                        Newly started
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <p className="text-xl font-semibold text-cyan-300">
+                    {startedTasks}
+                  </p>
+
+                </div>
+
+              </div>
+
+              <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-4">
+
+                <p className="text-xs text-slate-500">
+                  Total workspace tasks
+                </p>
+
+                <p className="text-sm font-semibold text-white">
+                  {tasks?.length || 0}
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
 
       </div>
